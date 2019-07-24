@@ -16,7 +16,7 @@ if [[ $platform == 'unknown' ]]; then
 fi
 
 if [ "$(id -u)" != "0" ]; then
-	echo "This installer requires root permissions - please run sudo ./install.sh instead"'!'
+	echo "This installer requires root permissions - please run ./install.sh instead"'!'
 	exit 1
 fi
 
@@ -42,10 +42,10 @@ hash $packagemanager 2>&- || { echo >&2 "This installer requires $packagemanager
 
 # Install Python-dev
 if [[ $platform == 'linux' ]]; then
-    apt-get install git-core python-setuptools python-dev build-essential python-pip
+    apt-get install -y git-core python-setuptools python-dev build-essential python-pip
 
     # Install server-specific stuff: SQLAlchemy, Tornadio, Tornadio from HEADs
-    apt-get install python-mysqldb
+    apt-get install -y python-mysqldb
     pip install sqlalchemy
 
     git clone https://github.com/facebook/tornado.git
@@ -61,17 +61,17 @@ if [[ $platform == 'linux' ]]; then
     rm -rf tornadio/
 
     # Other handy things
-    apt-get install libyaml-dev
+    apt-get install -y libyaml-dev
     pip install pyyaml
     pip install numpy
     pip install mutagen
 
-    apt-get install libjpeg-dev
+    apt-get install -y libjpeg-dev
     pip install PIL
 
     # The Echo Nest Remix API
-    apt-get install ffmpeg
-    sudo ln -s `which ffmpeg` /usr/local/bin/en-ffmpeg
+    apt-get install -y ffmpeg
+    ln -s `which ffmpeg` /usr/local/bin/en-ffmpeg
     git clone https://github.com/echonest/remix.git
     cd remix
     git clone https://github.com/echonest/pyechonest pyechonest
@@ -80,7 +80,7 @@ if [[ $platform == 'linux' ]]; then
     rm -rf remix/
 
     # Command-line programs used to speed up remixing
-    apt-get install lame soundstretch shntool
+    apt-get install -y lame soundstretch shntool
 
 else
     hash easy_install 2>&- || hash pip 2>&- || { echo >&2 "This installer requires easy_install or pip."; exit 1; }
@@ -113,7 +113,7 @@ else
 
     # The Echo Nest Remix API
     hash ffmpeg 2>&- || brew install ffmpeg
-    sudo ln -s `which ffmpeg` /usr/local/bin/en-ffmpeg
+    ln -s `which ffmpeg` /usr/local/bin/en-ffmpeg
     git clone https://github.com/echonest/remix.git
     cd remix
     git clone https://github.com/echonest/pyechonest pyechonest
